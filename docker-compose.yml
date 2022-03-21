@@ -1,0 +1,58 @@
+version: '3.4'
+
+services:
+  backend:
+    container_name: dochub_back
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+      # DB_HOST: dochub_postgres
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - 'postgres'
+    ports:
+      - ${PORT}:${PORT}
+    command: npm run start:dev
+
+  postgres:
+    build:
+      context: ./docker_postgres
+    container_name: dochub_postgres
+    ports:
+      - ${DB_PORT}:5432
+    volumes:
+      - postgresdb:/var/lib/postgresql/data
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      DB_NAME: '${DB_NAME}'
+      DB_DEVELOP_USER: '${DB_DEVELOP_USER}'
+      DB_DEVELOP_PASS: '${DB_DEVELOP_PASS}'
+    restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - default
+
+  ipfs:
+    image: ipfs/go-ipfs:latest
+    container_name: dochub_ipfs
+    ports:
+      - 4001:4001
+      - 127.0.0.1:5001:5001
+      - 127.0.0.1:8080:8080
+    restart: always
+    networks:
+      - default
+
+volumes:
+  postgresdb:

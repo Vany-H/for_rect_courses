@@ -1,0 +1,15 @@
+export default {
+  Processor: 'string',
+  'Processor Clock Speed': 'string',
+  'Storage Capacity': 'string',
+  'Memory Size': 'string',
+  'SIM Card Format': 'string',
+  'Screen Diadonal (Cm)': 'string',
+  'Screen Size (Inches)': 'string',
+  'Display Diagonal': 'string',
+  'Resolution (H*W)': 'string',
+  'Cellural Standart': 'string',
+  'Bluetooth-Version': 'number',
+  Connections: 'string',
+  'WIRELESS INTERNET ACCESS': 'string',
+};

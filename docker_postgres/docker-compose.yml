@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  postgres:
+    build:
+      context: .
+    container_name: dochub_postgres
+    ports:
+      - ${DB_PORT}:5432
+    volumes:
+      - postgresdb:/var/lib/postgresql/data
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      DB_NAME: '${DB_NAME}'
+      DB_DEVELOP_USER: '${DB_DEVELOP_USER}'
+      DB_DEVELOP_PASS: '${DB_DEVELOP_PASS}'
+    restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - default
+
+  ipfs:
+    image: ipfs/go-ipfs:latest
+    container_name: dochub_ipfs
+    ports:
+      - 4001:4001
+      - 127.0.0.1:5001:5001
+      - 127.0.0.1:8080:8080
+    restart: always
+    networks:
+      - default
+
+volumes:
+  postgresdb:
+networks:
+  default:
