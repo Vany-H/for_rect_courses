@@ -12,5 +12,9 @@ export class characteristicsItems1647610157662 implements MigrationInterface {
     `);
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
+      drop table characteristics_items 
+    `);
+  }
 }

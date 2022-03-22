@@ -5,7 +5,7 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { ToInt } from '../helper/number.transformer';
+import { ToInt } from 'src/shared/helper/number.transformer';
 
 export class CreateItemDto {
   @IsNotEmpty()
@@ -32,9 +32,9 @@ export class CreateItemDto {
   @IsNumber()
   parent?: number;
 
-  title_img?: string;
+  titleImg?: string;
 
-  image_URL?: string[];
+  imagesURLs?: string[];
 
-  characteristics: any;
+  characteristics?: any;
 }

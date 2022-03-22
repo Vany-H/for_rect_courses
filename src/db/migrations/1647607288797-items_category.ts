@@ -11,5 +11,9 @@ export class itemsCategory1647607288797 implements MigrationInterface {
         `);
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
+      drop table items_category 
+    `);
+  }
 }

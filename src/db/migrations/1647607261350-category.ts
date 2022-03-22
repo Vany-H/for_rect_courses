@@ -12,5 +12,9 @@ export class category1647607261350 implements MigrationInterface {
         `);
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
+      drop table categories 
+    `);
+  }
 }

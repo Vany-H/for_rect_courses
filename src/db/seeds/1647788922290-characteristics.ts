@@ -4,15 +4,15 @@ import characteristics from './characteristics';
 
 export class characteristics1647788922280 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    const characteristicsName = Object.entries(characteristics).map(
-      ([name]) => name,
-    );
-    queryRunner.query(
-      `INSERT INTO characteristics (code, created_at, updated_at) VALUES ${characteristicsName.map(
-        (el, index) => `('${el}', now(), now())`,
-        characteristicsName,
-      )}`,
-    );
+    const characteristicsArray = Object.entries(characteristics);
+
+    for (const characteristic of characteristicsArray) {
+      queryRunner.query(
+        `UPDATE Customers
+        SET type = ${characteristic[1]}
+        WHERE code = ${characteristic[0]}`,
+      );
+    }
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

@@ -8,7 +8,7 @@ import { Items } from 'src/entity/items.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Items]),
-    IpfsModule.forRoot({ baseURL: process.env.IPFS_URL, host: 5001 }), 
+    IpfsModule.forRoot({ baseURL: process.env.IPFS_URL, host: 5001 }),
   ],
   providers: [ItemsService],
   controllers: [ItemsController],

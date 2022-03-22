@@ -12,7 +12,7 @@ export class Items extends Timestamps {
   @Column()
   title_img: string;
 
-  @Column('text', {array:true})
+  @Column('text', { array: true })
   image_URL: string[];
 
   @Column()

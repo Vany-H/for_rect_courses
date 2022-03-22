@@ -6,6 +6,9 @@ export class Characteristics extends Timestamps {
   @PrimaryColumn()
   id: number;
 
-  @Column()
+  @PrimaryColumn()
   code: string;
+
+  @Column()
+  type: string;
 }

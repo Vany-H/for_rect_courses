@@ -1,4 +1,4 @@
-import { Inject, Injectable, StreamableFile } from '@nestjs/common';
+import { Inject, Injectable, Logger, StreamableFile } from '@nestjs/common';
 import axios, { AxiosRequestConfig } from 'axios';
 import * as FormData from 'form-data';
 import { createReadStream, ReadStream } from 'fs';
@@ -22,15 +22,27 @@ export class IpfsService {
   }
 
   async uploadFile(
+    files: Express.Multer.File[],
+  ): Promise<IpfsUploadFileAnswere[]>;
+  async uploadFile(
     files: Array<Express.Multer.File>,
-  ): Promise<IpfsUploadFileAnswere> {
+  ): Promise<Array<IpfsUploadFileAnswere>> {
     const data = new FormData();
-
     files.forEach((file) =>
       data.append('', streamifier.createReadStream(file.buffer)),
     );
     const config = this._getConfigs('post', 'add', {}, data);
-    return await axios(config).then((res) => res.data);
+    const response = await axios(config).then((res) => res.data);
+
+    if (typeof response === 'string') {
+      Logger.warn('response String');
+
+      const arrayOfString = response.split('\n');
+      arrayOfString.pop();
+      return arrayOfString.map((el) => JSON.parse(el) as IpfsUploadFileAnswere);
+    }
+
+    return [response];
   }
 
   async addFileToPin(fileHash: string) {
