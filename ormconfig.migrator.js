@@ -6,7 +6,6 @@ module.exports = {
   password: process.env.DB_MIGRATOR_PASS || 'develop',
   database: process.env.DB_NAME || 'dochub',
   logging: true,
-  entities: ['src/**/*.entity.ts'],
   migrationsTableName: 'migrations',
   migrations: ['src/db/migrations/*.ts'],
   cli: {

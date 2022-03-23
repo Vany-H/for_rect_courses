@@ -35,8 +35,6 @@ export class IpfsService {
     const response = await axios(config).then((res) => res.data);
 
     if (typeof response === 'string') {
-      Logger.warn('response String');
-
       const arrayOfString = response.split('\n');
       arrayOfString.pop();
       return arrayOfString.map((el) => JSON.parse(el) as IpfsUploadFileAnswere);

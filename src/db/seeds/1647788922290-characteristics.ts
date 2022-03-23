@@ -2,15 +2,15 @@ import { Logger } from '@nestjs/common';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import characteristics from './characteristics';
 
-export class characteristics1647788922280 implements MigrationInterface {
+export class characteristics1647788922290 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const characteristicsArray = Object.entries(characteristics);
 
     for (const characteristic of characteristicsArray) {
       queryRunner.query(
-        `UPDATE Customers
-        SET type = ${characteristic[1]}
-        WHERE code = ${characteristic[0]}`,
+        `UPDATE characteristics
+        SET type = '${characteristic[1]}'
+        WHERE code = '${characteristic[0]}'`,
       );
     }
   }

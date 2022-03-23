@@ -1,4 +1,4 @@
-export enum SortBy {
+export enum SortByEnum {
   DESC = 'DESC',
   ASC = 'ASC',
 }

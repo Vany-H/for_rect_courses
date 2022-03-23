@@ -1,17 +1,17 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class characteristicsType1647884277742 implements MigrationInterface {
+export class brandsItems1647970381759 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
-      ALTER TABLE items
-        ADD COLUMN type varchar(50)
-    `);
+        ALTER TABLE items
+            ADD COLUMN brands_id int references brands(id) on delete cascade
+        `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     queryRunner.query(`
-      ALTER TABLE characteristics
-        DROP COLUMN type
+        ALTER TABLE items
+            DROP COLUMN brands_id 
     `);
   }
 }

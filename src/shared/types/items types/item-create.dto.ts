@@ -32,9 +32,17 @@ export class CreateItemDto {
   @IsNumber()
   parent?: number;
 
+  @ToInt()
+  @IsNumber()
+  brandId: number;
+
+  @ToInt()
+  @IsNumber()
+  categoriesId: number;
+
   titleImg?: string;
 
-  imagesURLs?: string[];
+  imageURLs?: string[];
 
   characteristics?: any;
 }

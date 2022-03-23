@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   backend:
-    container_name: dochub_back
+    container_name: device_back
     restart: always
     build:
       context: .
@@ -24,7 +24,7 @@ services:
   postgres:
     build:
       context: ./docker_postgres
-    container_name: dochub_postgres
+    container_name: device_postgres
     ports:
       - ${DB_PORT}:5432
     volumes:
@@ -45,7 +45,7 @@ services:
 
   ipfs:
     image: ipfs/go-ipfs:latest
-    container_name: dochub_ipfs
+    container_name: device_ipfs
     ports:
       - 4001:4001
       - 127.0.0.1:5001:5001
