@@ -29,14 +29,14 @@ export class Items extends Timestamps {
   @Column()
   grade: number;
 
-  @Column({ name: 'parent_id' })
-  parent: number;
-
   @Column()
   price: number;
 
   @Column()
   sale: number;
+
+  @Column({ name: 'parent_id' })
+  parentId: number;
 
   @Column({ name: 'categories_id' })
   categoriesId: number;
@@ -46,7 +46,7 @@ export class Items extends Timestamps {
 
   @JoinColumn({ name: 'parent_id' })
   @ManyToOne(() => Items, (item) => item.id)
-  parentId: Items;
+  parent: Items;
 
   @JoinColumn({ name: 'categories_id' })
   @ManyToOne(() => Categories, (categories) => categories.id)

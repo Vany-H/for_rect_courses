@@ -29,8 +29,7 @@ export class CreateItemDto {
   sale: number = 0;
 
   @ToInt()
-  @IsNumber()
-  parent?: number;
+  parentId?: number;
 
   @ToInt()
   @IsNumber()

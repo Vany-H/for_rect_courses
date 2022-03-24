@@ -35,4 +35,14 @@ export class BrandsService {
   async getBrandById(id: number) {
     return this.brandRepo.findOne({ where: { id } });
   }
+
+  async getBrandByName(name: string, check: boolean = true) {
+    const brand = await this.brandRepo.findOne({ where: { name } });
+    if (!brand && check)
+      throw new HttpException(`Category "${name}" not exist`, 400);
+
+    if (!brand) return { id: undefined };
+
+    return brand;
+  }
 }

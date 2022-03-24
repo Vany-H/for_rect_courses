@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./style.css" />
+
+    <title>Add items</title>
+  </head>
+  <body>
+    <script defer src="./imgUrl.js"></script>
+
+    <div class="main-interface">
+      <div class="add-image flex">
+        <div class="add-bottom">
+          <input type="file" class="file_upload" />
+          <img src="./img/25304.png" alt="" />
+        </div>
+      </div>
+
+      <div class="add-data">
+        <div>Name: <input class="name" type="text" /></div>
+        <div>Sale: <input class="sale" type="text" /></div>
+        <div>Grade: <input class="grade" type="text" /></div>
+        <div>Price: <input class="price" type="text" /></div>
+      </div>
+
+      <div class="add-characteristics">
+        <div class="add-bottom">
+          <img src="./img/25304.png" alt="" />
+        </div>
+
+        <div class="display"></div>
+
+        <div class="listOfSomething_2 displayNone"></div>
+      </div>
+
+      <div class="add-category-brand">
+        <div class="add-brand flex">
+          <div class="listOfSomething displayNone">
+            Brand name:<input type="text" />
+            <button class="create-brand">Create</button>
+            <button class="exit">X</button>
+          </div>
+          <div class="add-bottom">
+            <img src="./img/25304.png" alt="" />
+          </div>
+        </div>
+
+        <div class="add-category flex">
+          <div class="listOfSomething displayNone">
+            Category name:<input type="text" />
+            <button class="create-category">Create</button>
+            <button class="exit">X</button>
+          </div>
+          <div class="add-bottom">
+            <img src="./img/25304.png" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="send">Create Item</button>
+  </body>
+</html>

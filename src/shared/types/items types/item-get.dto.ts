@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsEnum, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsEmpty, IsEnum, IsNumber, IsString } from 'class-validator';
 import { ToInt } from 'src/shared/helper/number.transformer';
 import { BrandsNameCheck } from 'src/shared/validators-decorators/decorators/brands-name.decorator';
 import { CategoriesNameCheck } from 'src/shared/validators-decorators/decorators/categories-name.decorator';
@@ -19,32 +19,27 @@ export class GetItemsQueryDto {
   @ApiProperty({ enum: SortByEnum, nullable: true, required: false })
   sortType?: SortByEnum = SortByEnum.ASC;
 
-  @IsString()
-  @IsEnum(SortFieldEnum)
   @ApiProperty({ enum: SortFieldEnum, nullable: true, required: false })
   sortBy?: SortFieldEnum;
 
-  @IsString()
   @ApiProperty({ nullable: true, required: false })
   search?: string;
 
   @ToInt()
   @IsNumber()
+  @ApiProperty()
   offset: number;
 
   @ToInt()
   @IsNumber()
+  @ApiProperty()
   limit: number;
+
+  @ApiProperty({ nullable: true, required: false })
+  brands?: string;
 }
 
 export class GetItemsParamDto {
-  @IsString()
   @ApiProperty({ nullable: true, required: false })
-  @CategoriesNameCheck()
   categories?: string;
-
-  @IsString()
-  @ApiProperty({ nullable: true, required: false })
-  @BrandsNameCheck()
-  brands?: string;
 }

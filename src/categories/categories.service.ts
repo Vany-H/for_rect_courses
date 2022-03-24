@@ -36,6 +36,16 @@ export class CategoriesService {
     return this.categoriesRepo.findOne({ where: { id } });
   }
 
+  async getCategoryByName(name: string, check: boolean = true) {
+    const category = await this.categoriesRepo.findOne({ where: { name } });
+    if (!category && check)
+      throw new HttpException(`Category "${name}" not exist`, 400);
+
+    if (!category) return { id: undefined };
+
+    return category;
+  }
+
   async getBrendsOfCatagory(category_id: number) {
     const itemsBrands = await this.itemsRepo
       .createQueryBuilder('i')

@@ -7,8 +7,11 @@ import {
   Get,
   Param,
   Query,
+  Req,
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
+import { ApiExcludeEndpoint, ApiHideProperty, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 import { CharacteristicsService } from 'src/characteristics/characteristics.service';
 import { IpfsService } from 'src/ipfs/ipfs.service';
 import { CreateItemDto } from 'src/shared/types/items types/item-create.dto';
@@ -16,8 +19,10 @@ import {
   GetItemsParamDto,
   GetItemsQueryDto,
 } from 'src/shared/types/items types/item-get.dto';
+import { GetItemInfoParamDto } from 'src/shared/types/items types/item-info.dto';
 import { ItemsService } from './items.service';
 
+@ApiTags('Items')
 @Controller('items')
 export class ItemsController {
   constructor(
@@ -26,6 +31,7 @@ export class ItemsController {
     private readonly characteristicService: CharacteristicsService,
   ) {}
 
+  @ApiExcludeEndpoint(true)
   @Post()
   @UseInterceptors(AnyFilesInterceptor())
   async createItem(
@@ -34,28 +40,36 @@ export class ItemsController {
       name,
       grade,
       characteristics,
-      parent,
+      parentId,
       sale,
       price,
       brandId,
       categoriesId,
     }: CreateItemDto,
     @UploadedFiles() files: Express.Multer.File[],
+    @Req() request: Request,
   ) {
+    console.log(request.hostname);
+
     const images = await this.ipfsService.uploadFile(files);
     const imageURLs = await Promise.all(
-      images.map(async (el) => await this.ipfsService.downloadFileUrl(el.Name)),
+      images.map(
+        async (el) =>
+          await this.ipfsService.downloadFileUrl(el.Name, request.hostname),
+      ),
     );
+
+    console.log(characteristics);
 
     const obj = JSON.parse(characteristics);
     const characters = await this.characteristicService.checkCharacteristic(
       obj,
     );
 
-    this.itemService.createItem({
+    const { id } = await this.itemService.createItem({
       name,
       grade,
-      parent,
+      parentId,
       sale,
       price,
       imageURLs,
@@ -63,13 +77,20 @@ export class ItemsController {
       brandId,
       categoriesId,
     });
+
+    this.itemService.addCharacteristics(characters, id);
   }
 
   @Get('items/:categories/:brands')
   async itemsList(
-    @Param() { categories, brands }: GetItemsParamDto,
+    @Param() { categories }: GetItemsParamDto,
     @Query() query: GetItemsQueryDto,
   ) {
-    return this.itemService.getItems(categories, brands, query);
+    return this.itemService.getItems(categories, query.brands, query);
+  }
+
+  @Get('/:item_id/:page')
+  async itemInfo(@Param() { item_id, page }: GetItemInfoParamDto) {
+    return this.itemService.itemInfo(item_id, page);
   }
 }

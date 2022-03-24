@@ -11,10 +11,11 @@ import { Categories } from 'src/entity/categories.entity';
 import { Brands } from 'src/entity/brands.entity';
 import { CategoriesModule } from 'src/categories/categories.module';
 import { BrandsModule } from 'src/brands/brands.module';
+import { CharacteristicsItems } from 'src/entity/characteristics_items.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Items]),
+    TypeOrmModule.forFeature([Items, CharacteristicsItems]),
     IpfsModule.forRoot({ baseURL: process.env.IPFS_URL, host: 5001 }),
     CharacteristicsModule,
     CategoriesModule,

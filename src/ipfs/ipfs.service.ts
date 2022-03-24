@@ -48,14 +48,15 @@ export class IpfsService {
     return axios(config).then((res) => res.data);
   }
 
-  async downloadFileUrl(fileHash: string): Promise<string>;
-  async downloadFileUrl(fileHash: string[]): Promise<string[]>;
+  async downloadFileUrl(fileHash: string, host?: string): Promise<string>;
+  async downloadFileUrl(fileHash: string[], host?: string): Promise<string[]>;
   async downloadFileUrl(
     fileHash: string | string[],
+    host: string = '127.0.0.1',
   ): Promise<string[] | string> {
     return Array.isArray(fileHash)
       ? fileHash.map((hash) => `http://127.0.0.1:8080/ipfs/${hash}`)
-      : `http://127.0.0.1:8080/ipfs/${fileHash}`;
+      : `http://${host}:8080/ipfs/${fileHash}`;
   }
 
   private _getConfigs(

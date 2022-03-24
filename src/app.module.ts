@@ -11,6 +11,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Categories } from './entity/categories.entity';
 import { BrandsNameValidator } from './shared/validators-decorators/validators/brands-name.validator';
 import { Brands } from './entity/brands.entity';
+import { CommentModule } from './comment/comment.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -20,6 +23,11 @@ import { Brands } from './entity/brands.entity';
     BrandsModule,
     CategoriesModule,
     TypeOrmModule.forFeature([Categories, Brands]),
+    CommentModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'static'),
+      serveRoot: '/add-item',
+    }),
   ],
   controllers: [AppController],
   providers: [AppService, CategoriesNameValidator, BrandsNameValidator],

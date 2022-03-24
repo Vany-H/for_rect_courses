@@ -15,7 +15,7 @@ export class CharacteristicsController {
     return this.characteristicService.createCharactristic(code, type);
   }
 
-  @Get('category-list')
+  @Get('characteristics-list')
   async getCategories(@Query() { search }: SearchQueryDto) {
     return this.characteristicService.getAllCharacteristics(search);
   }
