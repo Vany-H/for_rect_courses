@@ -14,6 +14,7 @@ import { Brands } from './entity/brands.entity';
 import { CommentModule } from './comment/comment.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { join } from 'path';
       rootPath: join(__dirname, '..', 'static'),
       serveRoot: '/add-item',
     }),
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService, CategoriesNameValidator, BrandsNameValidator],

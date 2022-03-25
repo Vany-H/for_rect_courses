@@ -27,8 +27,8 @@ async function bootstrap() {
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   const config = new DocumentBuilder()
-    .setTitle('DSOD - Digital Signature Of Documents')
-    .setDescription('DSOD for all')
+    .setTitle('React Courses')
+    .setDescription('(>0_0)>')
     .setVersion('1.0.0')
     .build();
 

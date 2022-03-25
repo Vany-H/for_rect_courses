@@ -49,8 +49,6 @@ export class ItemsController {
     @UploadedFiles() files: Express.Multer.File[],
     @Req() request: Request,
   ) {
-    console.log(request.hostname);
-
     const images = await this.ipfsService.uploadFile(files);
     const imageURLs = await Promise.all(
       images.map(
@@ -58,8 +56,6 @@ export class ItemsController {
           await this.ipfsService.downloadFileUrl(el.Name, request.hostname),
       ),
     );
-
-    console.log(characteristics);
 
     const obj = JSON.parse(characteristics);
     const characters = await this.characteristicService.checkCharacteristic(

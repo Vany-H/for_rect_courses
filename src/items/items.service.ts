@@ -40,7 +40,7 @@ export class ItemsService {
       parentId,
       titleImg,
       imageURLs,
-      brandId,
+      brandsId: brandId,
       categoriesId,
       created_at: new Date(),
       updated_at: new Date(),
@@ -72,8 +72,6 @@ export class ItemsService {
       .leftJoinAndSelect('i.brands', 'b')
       .skip(offset)
       .take(limit);
-
-    console.log(categoriesId);
 
     if (!!categoriesId)
       itemsQuery.andWhere(`i.categories_id   = :categoriesId`, {

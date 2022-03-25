@@ -50,6 +50,7 @@ fetch('http://localhost:3000/brands/list-brand', {
 
       div.innerHTML = `${el.name}/${el.id}`;
       div.onclick = () => {
+        formdata.delete('brandId');
         formdata.append('brandId', el.id);
 
         const selects = document.querySelectorAll('.add-brand > .select');
@@ -74,6 +75,7 @@ fetch('http://localhost:3000/categories/categories-list', {
 
       div.innerHTML = `${el.name}/${el.id}`;
       div.onclick = () => {
+        formdata.delete('categoriesId');
         formdata.append('categoriesId', el.id);
 
         const selects = document.querySelectorAll('.add-category > .select');
@@ -113,7 +115,10 @@ brandCreate.onclick = () => {
     body: jsonRaw,
   })
     .then((response) => response.json())
-    .then((result) => console.log(result));
+    .then((result) => {
+      const window = document.querySelector('.add-brand > .listOfSomething');
+      window.classList.add('displayNone');
+    });
 };
 
 ctayegoryCreate.onclick = () => {
@@ -121,7 +126,6 @@ ctayegoryCreate.onclick = () => {
     '.add-category > .listOfSomething > input',
   );
 
-  console.log(input.value);
   const raw = { name: input.value };
 
   fetch('http://localhost:3000/categories/', {
@@ -138,7 +142,10 @@ ctayegoryCreate.onclick = () => {
     body: JSON.stringify(raw),
   })
     .then((response) => response.json())
-    .then((result) => console.log(result));
+    .then((result) => {
+      const window = document.querySelector('.add-category > .listOfSomething');
+      window.classList.add('displayNone');
+    });
 };
 
 const ctayegoryExist = document.querySelector(
@@ -248,5 +255,5 @@ send.onclick = () => {
   fetch('http://localhost:3000/items/', requestOptions)
     .then((response) => response.text())
     .then((result) => console.log(result))
-    .catch((error) => console.log('error', error));
+    .catch((error) => document.location.reload());
 };

@@ -46,13 +46,38 @@ export class CategoriesService {
     return category;
   }
 
-  async getBrendsOfCatagory(category_id: number) {
-    const itemsBrands = await this.itemsRepo
+  async getBrandsOfCatagory(category_id: number | string) {
+    const itemsQuery = await this.itemsRepo
       .createQueryBuilder('i')
       .leftJoinAndSelect('i.brands', 'b')
-      .where(`i.categories_id = :category`)
-      .getMany();
+      .leftJoinAndSelect('i.categories', 'c');
 
-    return itemsBrands.map((el) => el.brands);
+    if (!!+category_id)
+      itemsQuery.where(
+        `i.categories_id = :category_id OR c.name = :category_id`,
+        {
+          category_id,
+        },
+      );
+    else
+      itemsQuery.where(`c.name = :category_id`, {
+        category_id,
+      });
+
+    const itemsBrands = await itemsQuery.getMany();
+
+    return itemsBrands.reduce((accum, el) => {
+      let check = false;
+      for (const ele of accum) {
+        if (ele.name === el.brands.name) {
+          check = true;
+          break;
+        }
+      }
+
+      if (!check && !!el.brands)
+        accum.push({ name: el.brands.name, id: el.brandsId });
+      return accum;
+    }, []);
   }
 }

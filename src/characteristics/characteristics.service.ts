@@ -45,7 +45,7 @@ export class CharacteristicsService {
 
     return characteristic.reduce((accum, el) => {
       if (typeof obj[el.code] === el.type)
-        return (accum[el.code] = { id: el.id, value: obj[el.code] });
+        accum[el.code] = { id: el.id, value: obj[el.code] };
       return accum;
     }, {});
   }
