@@ -14,7 +14,7 @@ export class CategoriesService {
 
   async createCategory(name: string) {
     const categories = await this.categoriesRepo.findOne({ where: { name } });
-    if (!!categories) throw new HttpException('This categories exist', 400);
+    if (!!categories) throw new HttpException('This categories exist', 409);
     this.categoriesRepo.save({
       name,
       created_at: new Date(),
@@ -39,7 +39,7 @@ export class CategoriesService {
   async getCategoryByName(name: string, check: boolean = true) {
     const category = await this.categoriesRepo.findOne({ where: { name } });
     if (!category && check)
-      throw new HttpException(`Category "${name}" not exist`, 400);
+      throw new HttpException(`Category "${name}" not exist`, 404);
 
     if (!category) return { id: undefined };
 

@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 export class deleteCIAddItemField1648038779834 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-      drop table items_category 
+      drop table items_categories 
     `);
 
     await queryRunner.query(`

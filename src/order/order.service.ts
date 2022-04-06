@@ -30,7 +30,7 @@ export class OrderService {
       .getMany();
 
     if (itemsIdArray.length !== itemsIds.length)
-      throw new HttpException('Item not exist', 400);
+      throw new HttpException('Item not exist', 404);
 
     const total = itemsIdArray.reduce((accum, el) => accum + el.price, 0);
 

@@ -20,7 +20,7 @@ export class BrandsNameValidator implements ValidatorConstraintInterface {
   ): Promise<boolean> {
     const brands = await this.brandRepo.findOne({ where: { name: value } });
 
-    if (!brands) throw new HttpException('This brand not exist', 400);
+    if (!brands) throw new HttpException('This brand not exist', 404);
 
     return true;
   }

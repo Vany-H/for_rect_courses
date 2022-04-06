@@ -14,11 +14,9 @@ import { ApiExcludeEndpoint, ApiHideProperty, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { CharacteristicsService } from 'src/characteristics/characteristics.service';
 import { IpfsService } from 'src/ipfs/ipfs.service';
+import { GetCommentItemsParamDto } from 'src/shared/types/comment types/comment-get.dto';
 import { CreateItemDto } from 'src/shared/types/items types/item-create.dto';
-import {
-  GetItemsParamDto,
-  GetItemsQueryDto,
-} from 'src/shared/types/items types/item-get.dto';
+import { GetItemsQueryDto } from 'src/shared/types/items types/item-get.dto';
 import { GetItemInfoParamDto } from 'src/shared/types/items types/item-info.dto';
 import { ItemsService } from './items.service';
 
@@ -77,16 +75,16 @@ export class ItemsController {
     this.itemService.addCharacteristics(characters, id);
   }
 
-  @Get('items/:categories/:brands')
-  async itemsList(
-    @Param() { categories }: GetItemsParamDto,
-    @Query() query: GetItemsQueryDto,
-  ) {
-    return this.itemService.getItems(categories, query.brands, query);
+  @Get('items')
+  async itemsList(@Query() query: GetItemsQueryDto) {
+    return this.itemService.getItems(query.categories, query.brands, query);
   }
 
-  @Get('/:item_id/:page')
-  async itemInfo(@Param() { item_id, page }: GetItemInfoParamDto) {
-    return this.itemService.itemInfo(item_id, page);
+  @Get('item-info/:item_id/:page')
+  async itemInfo(
+    @Param() { item_id, page }: GetItemInfoParamDto,
+    @Query() { offset, limit }: GetCommentItemsParamDto,
+  ) {
+    return this.itemService.itemInfo(item_id, page, offset, limit);
   }
 }

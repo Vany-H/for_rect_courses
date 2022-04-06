@@ -14,7 +14,7 @@ export class CharacteristicsService {
       where: { code },
     });
 
-    if (itemOfCode) throw new HttpException('This Characteristic exist', 400);
+    if (itemOfCode) throw new HttpException('This Characteristic exist', 409);
 
     return this.characteristicsRepo.save({
       code,
@@ -35,7 +35,7 @@ export class CharacteristicsService {
 
   async checkCharacteristic(obj: any) {
     if (typeof obj !== 'object')
-      throw new HttpException('Characteristics must be JSON string', 400);
+      throw new HttpException('Characteristics must be JSON string', 404);
 
     const keys = Object.entries(obj).map(([key]) => key);
     const characteristic = await this.characteristicsRepo

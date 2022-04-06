@@ -22,7 +22,7 @@ export class CommentService {
   }: CreateCommentDto) {
     const item = await this.itemsRepo.find({ where: { id: itemId } });
 
-    if (!item) throw new HttpException(`Item with id ${itemId} not exist`, 400);
+    if (!item) throw new HttpException(`Item with id ${itemId} not exist`, 404);
 
     const objectOfCreate = { comment, itemId, userName };
 
@@ -33,7 +33,7 @@ export class CommentService {
     });
 
     if (!replyComment)
-      throw new HttpException(`Comment with id ${replyId} not exist`, 400);
+      throw new HttpException(`Comment with id ${replyId} not exist`, 404);
 
     return this.commentRepo.save({ ...objectOfCreate, replyId });
   }
@@ -41,7 +41,7 @@ export class CommentService {
   async searchComment({ itemId, limit, offset }: GetCommentItemsParamDto) {
     const item = await this.itemsRepo.find({ where: { id: itemId } });
 
-    if (!item) throw new HttpException(`Item with id ${itemId} not exist`, 400);
+    if (!item) throw new HttpException(`Item with id ${itemId} not exist`, 404);
 
     const commentQuery = this.commentRepo.createQueryBuilder('c');
     if (!!offset && !!limit) commentQuery.skip(offset).limit(limit);

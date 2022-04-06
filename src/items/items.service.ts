@@ -2,6 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BrandsService } from 'src/brands/brands.service';
 import { CategoriesService } from 'src/categories/categories.service';
+import { CommentService } from 'src/comment/comment.service';
 import { CharacteristicsItems } from 'src/entity/characteristics_items.entity';
 import { Items } from 'src/entity/items.entity';
 import { CreateItemDto } from 'src/shared/types/items types/item-create.dto';
@@ -19,6 +20,7 @@ export class ItemsService {
   constructor(
     private readonly categoriesService: CategoriesService,
     private readonly brandService: BrandsService,
+    private readonly commentService: CommentService,
   ) {}
 
   async createItem({
@@ -73,12 +75,13 @@ export class ItemsService {
       .skip(offset)
       .take(limit);
 
-    if (!!categoriesId)
+    if (!!categoriesId || categoriesId === 0)
       itemsQuery.andWhere(`i.categories_id   = :categoriesId`, {
         categoriesId,
       });
 
-    if (!!brandId) itemsQuery.andWhere(`i.brands_id = :brandId`, { brandId });
+    if (!!brandId || brandId === 0)
+      itemsQuery.andWhere(`i.brands_id = :brandId`, { brandId });
 
     if (!!search)
       itemsQuery.andWhere(`i.name ilike :search`, { search: `%${search}%` });
@@ -97,7 +100,7 @@ export class ItemsService {
     const item = await this.itemRepository.findOne({ where: { id: item_id } });
 
     if (!item)
-      throw new HttpException(`Item with Id ${item_id} not exist`, 400);
+      throw new HttpException(`Item with Id ${item_id} not exist`, 404);
 
     const characteriscticsItem = Object.entries(characteristics).map(
       ([, el]) => {
@@ -113,10 +116,15 @@ export class ItemsService {
     return this.characteristicsItemsRepository.save(characteriscticsItem);
   }
 
-  async itemInfo(id: number, page: ItemPageEnum = ItemPageEnum.Main) {
+  async itemInfo(
+    id: number,
+    page: ItemPageEnum = ItemPageEnum.Main,
+    offset: number,
+    limit: number,
+  ) {
     const item = await this.itemRepository.findOne({ where: { id } });
 
-    if (!item) throw new HttpException(`Item with Id ${id} not exist`, 400);
+    if (!item) throw new HttpException(`Item with Id ${id} not exist`, 404);
 
     const itemsVariable = await this.characteristicsItemsRepository
       .createQueryBuilder('chi')
@@ -149,6 +157,15 @@ export class ItemsService {
       }
 
       return { ...item, characterisctics: objectRes };
+    }
+
+    if (page === ItemPageEnum.Comment) {
+      if (!limit || !offset)
+        throw new HttpException(
+          'Must be specified limit and offcet parameters',
+          400,
+        );
+      return this.commentService.searchComment({ itemId: id, limit, offset });
     }
 
     Object.entries(characteristicItem).forEach(([key, value]) => {

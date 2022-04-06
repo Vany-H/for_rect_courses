@@ -11,7 +11,7 @@ export class BrandsService {
   async createBrand(name: string): Promise<Brands> {
     const brand = await this.brandRepo.findOne({ where: { name } });
 
-    if (!!brand) throw new HttpException('This brand exist', 400);
+    if (!!brand) throw new HttpException('This brand exist', 409);
 
     return this.brandRepo.save({
       name,
@@ -39,7 +39,7 @@ export class BrandsService {
   async getBrandByName(name: string, check: boolean = true) {
     const brand = await this.brandRepo.findOne({ where: { name } });
     if (!brand && check)
-      throw new HttpException(`Category "${name}" not exist`, 400);
+      throw new HttpException(`Category "${name}" not exist`, 404);
 
     if (!brand) return { id: undefined };
 

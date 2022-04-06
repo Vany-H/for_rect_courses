@@ -7,7 +7,7 @@ export class characteristics1647788922280 implements MigrationInterface {
     const characteristicsName = Object.entries(characteristics).map(
       ([name]) => name,
     );
-    queryRunner.query(
+    await queryRunner.query(
       `INSERT INTO characteristics (code, created_at, updated_at) VALUES ${characteristicsName.map(
         (el, index) => `('${el}', now(), now())`,
         characteristicsName,
@@ -16,6 +16,6 @@ export class characteristics1647788922280 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    queryRunner.query(`DELETE FROM characteristics WHERE id not null`);
+    await queryRunner.query(`DELETE FROM characteristics WHERE id not null`);
   }
 }

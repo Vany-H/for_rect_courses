@@ -12,6 +12,7 @@ import { Brands } from 'src/entity/brands.entity';
 import { CategoriesModule } from 'src/categories/categories.module';
 import { BrandsModule } from 'src/brands/brands.module';
 import { CharacteristicsItems } from 'src/entity/characteristics_items.entity';
+import { CommentModule } from 'src/comment/comment.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CharacteristicsItems } from 'src/entity/characteristics_items.entity';
     CharacteristicsModule,
     CategoriesModule,
     BrandsModule,
+    CommentModule,
   ],
   providers: [ItemsService],
   controllers: [ItemsController],

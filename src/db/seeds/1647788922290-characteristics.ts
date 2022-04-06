@@ -7,7 +7,7 @@ export class characteristics1647788922290 implements MigrationInterface {
     const characteristicsArray = Object.entries(characteristics);
 
     for (const characteristic of characteristicsArray) {
-      queryRunner.query(
+      await queryRunner.query(
         `UPDATE characteristics
         SET type = '${characteristic[1]}'
         WHERE code = '${characteristic[0]}'`,

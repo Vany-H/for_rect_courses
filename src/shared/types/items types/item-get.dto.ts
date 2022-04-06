@@ -37,9 +37,7 @@ export class GetItemsQueryDto {
 
   @ApiProperty({ nullable: true, required: false })
   brands?: string;
-}
 
-export class GetItemsParamDto {
   @ApiProperty({ nullable: true, required: false })
   categories?: string;
 }

@@ -22,7 +22,7 @@ export class CategoriesNameValidator implements ValidatorConstraintInterface {
       where: { name: value },
     });
 
-    if (!categories) throw new HttpException('This category not exist', 400);
+    if (!categories) throw new HttpException('This category not exist', 404);
 
     return true;
   }
