@@ -6,7 +6,7 @@ RUN npm i -g @nestjs/cli@8.1.1
 
 COPY package.json package-lock.json ./
 
-RUN npm ci
+RUN npm ci --legacy-peer-deps --force
 
 ADD . .
 
